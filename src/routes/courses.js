@@ -11,6 +11,13 @@ const courseInput = z.object({
   published: z.boolean().default(false)
 }).strict();
 
+router.get("/catalog", asyncHandler(async (req, res) => {
+  const courses = await Course.find({ published: true })
+    .populate("instructor", "name")
+    .sort({ createdAt: -1 });
+  res.json({ courses });
+}));
+
 router.get("/", requireAuth, asyncHandler(async (req, res) => {
   const filter = req.auth.user.role === "admin" ? {} : { published: true };
   res.json({ courses: await Course.find(filter).populate("instructor", "name email").sort({ createdAt: -1 }) });

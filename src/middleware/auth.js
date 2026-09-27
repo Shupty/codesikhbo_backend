@@ -7,8 +7,11 @@ async function requireAuth(req, res, next) {
     const header = req.get("authorization") || "";
     if (!header.startsWith("Bearer ")) return res.status(401).json({ error: "Authentication required" });
     const payload = jwt.verify(header.slice(7), env.JWT_SECRET);
-    const user = await User.findById(payload.sub).select("name email role active");
+    const user = await User.findById(payload.sub).select("name email role active +tokenVersion");
     if (!user || !user.active) return res.status(401).json({ error: "Authentication required" });
+    if (payload.tokenVersion !== user.tokenVersion) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
     req.auth = { userId: String(user._id), user };
     next();
   } catch (error) {

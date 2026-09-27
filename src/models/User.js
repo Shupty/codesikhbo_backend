@@ -7,7 +7,8 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
   passwordHash: { type: String, required: true, select: false },
   role: { type: String, enum: roles, default: "user", index: true },
-  active: { type: Boolean, default: true, index: true }
+  active: { type: Boolean, default: true, index: true },
+  tokenVersion: { type: Number, default: 0, select: false }
 }, { timestamps: true, versionKey: false });
 
 const User = model("User", userSchema);

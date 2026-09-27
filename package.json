@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "description": "Learnify LMS Express and MongoDB API",
-  "main": "src/server.js",
+  "main": "src/app.js",
   "scripts": {
-    "dev": "node --watch src/server.js",
-    "start": "node src/server.js",
-    "build": "node src/server.js",
-    "seed:admin": "node src/scripts/seedAdmin.js"
+    "dev": "node --watch src/start.js",
+    "start": "node src/start.js",
+    "build": "npm run check",
+    "seed:admin": "node src/scripts/seedAdmin.js",
+    "check": "node --check src/app.js && node --check src/start.js && node --check src/config/db.js && node --check src/config/env.js && node --check src/controllers/authController.js && node --check src/middleware/asyncHandler.js && node --check src/middleware/auth.js && node --check src/middleware/errors.js && node --check src/models/Course.js && node --check src/models/Enrollment.js && node --check src/models/User.js && node --check src/routes/auth.js && node --check src/routes/courses.js && node --check src/routes/dashboard.js && node --check src/routes/learner.js && node --check src/routes/users.js && node --check src/scripts/seedAdmin.js && node --check src/services/authService.js && node --check src/validators/auth.js"
   },
   "engines": { "node": ">=18" },
   "dependencies": {
@@ -16,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-rate-limit": "^7.5.0",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.3",

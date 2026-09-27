@@ -3,7 +3,7 @@ const { env } = require("../config/env");
 const { User, hashPassword, comparePassword, publicUser } = require("../models/User");
 
 function tokenFor(user) {
-  return jwt.sign({ role: user.role }, env.JWT_SECRET, {
+  return jwt.sign({ role: user.role, tokenVersion: user.tokenVersion || 0 }, env.JWT_SECRET, {
     subject: String(user._id),
     expiresIn: env.JWT_EXPIRES_IN
   });
